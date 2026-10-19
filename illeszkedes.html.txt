@@ -1,0 +1,2005 @@
+<!DOCTYPE html>
+<html lang="hu" class="font-size-large">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Az illeszkedés törvénye – 5. osztály | Hangtan Prezentáció</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-space: #090d16;
+      --bg-surface: #111827;
+      --bg-card: rgba(17, 24, 39, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.12);
+      
+      /* Hangtani színkódok */
+      --color-mely: #f97316;          /* Mély hangrend: Meleg narancs */
+      --color-mely-glow: rgba(249, 115, 22, 0.45);
+      --color-magas: #06b6d4;         /* Magas hangrend: Ciánkék */
+      --color-magas-glow: rgba(6, 182, 212, 0.45);
+      --color-vegyes: #a855f7;        /* Vegyes hangrend: Lila */
+      --color-vegyes-glow: rgba(168, 85, 247, 0.45);
+      --color-accent: #10b981;        /* Helyes zöld */
+
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-bright: #ffffff;
+
+      --font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+      --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Betűméret szintek – Nagy és könnyen olvasható betűk */
+    html {
+      font-size: 17.5px; /* Alapértelmezett NAGY méret */
+    }
+
+    html.font-size-normal {
+      font-size: 15px; /* Kompakt méret kisebb kijelzőkre */
+    }
+
+    html.font-size-large {
+      font-size: 17.5px; /* Nagy méret - kiváló olvashatóság */
+    }
+
+    html.font-size-huge {
+      font-size: 20.5px; /* Extra nagy / vetítő / okostábla méret */
+    }
+
+    @media (min-height: 850px) {
+      html.font-size-large {
+        font-size: 18.5px;
+      }
+      html.font-size-huge {
+        font-size: 21.5px;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-space);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(249, 115, 22, 0.1) 0%, transparent 45%),
+        linear-gradient(180deg, #070a12 0%, #0d1322 100%);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      overflow-x: hidden;
+    }
+
+    /* Prezentációs Színtér */
+    .presentation-stage {
+      width: min(98vw, 1380px);
+      min-height: min(96vh, 860px);
+      max-height: 97vh;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    /* Fejléc */
+    .stage-header {
+      padding: 10px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.88);
+      z-index: 10;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge-grade {
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      background: rgba(6, 182, 212, 0.22);
+      border: 1px solid rgba(6, 182, 212, 0.45);
+      border-radius: var(--radius-full);
+      color: #67e8f9;
+    }
+
+    .presentation-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-bright);
+      letter-spacing: -0.01em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Betűméret vezérlő (A- / A / A+) */
+    .font-size-ctrl {
+      display: flex;
+      align-items: center;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 2px 6px;
+      gap: 3px;
+    }
+
+    .font-size-label {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #cbd5e1;
+      padding: 0 6px 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-font-size {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #94a3b8;
+      font-size: 0.92rem;
+      font-weight: 800;
+      width: 32px;
+      height: 28px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-font-size:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .btn-font-size.active {
+      background: #06b6d4;
+      color: #0f172a;
+      border-color: #67e8f9;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+    }
+
+    .slide-counter-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 1rem;
+      font-weight: 800;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+    }
+
+    .btn-icon-fullscreen {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-icon-fullscreen:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--text-bright);
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f97316, #a855f7, #06b6d4);
+      width: 16.66%;
+      transition: width 0.35s ease;
+    }
+
+    /* Fő Diatér */
+    .stage-body {
+      flex: 1;
+      padding: 16px 24px;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(6, 182, 212, 0.4) rgba(15, 23, 42, 0.4);
+    }
+
+    .stage-body::-webkit-scrollbar {
+      width: 7px;
+    }
+    .stage-body::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .stage-body::-webkit-scrollbar-thumb {
+      background: rgba(6, 182, 212, 0.4);
+      border-radius: 4px;
+    }
+
+    /* Egyedi Dia Konténer */
+    .slide {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeInSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .slide-header-box {
+      margin-bottom: 0px;
+    }
+
+    .slide-subtitle {
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #93c5fd;
+      margin-bottom: 2px;
+    }
+
+    .slide-main-title {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--text-bright);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    /* Kártya elrendezések */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .card-mely {
+      border-top: 4px solid var(--color-mely);
+    }
+
+    .card-magas {
+      border-top: 4px solid var(--color-magas);
+    }
+
+    .card-vegyes {
+      border-top: 4px solid var(--color-vegyes);
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    .card-paragraph {
+      color: #f1f5f9;
+      font-size: 1.12rem;
+      line-height: 1.5;
+    }
+
+    .card-note {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .pill-vowels {
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin: 6px 0;
+    }
+
+    .vowels-mely {
+      background: rgba(249, 115, 22, 0.2);
+      border: 2px solid var(--color-mely);
+      color: #fdba74;
+      text-shadow: 0 0 12px var(--color-mely-glow);
+    }
+
+    .vowels-magas {
+      background: rgba(6, 182, 212, 0.2);
+      border: 2px solid var(--color-magas);
+      color: #67e8f9;
+      text-shadow: 0 0 12px var(--color-magas-glow);
+    }
+
+    .magic-word-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(30, 41, 59, 0.95);
+      border: 1px dashed rgba(255, 255, 255, 0.3);
+      border-radius: var(--radius-sm);
+      font-size: 1.08rem;
+      color: #f8fafc;
+      margin-top: 4px;
+    }
+
+    .magic-word-badge strong {
+      color: #fde047;
+      letter-spacing: 0.05em;
+      font-size: 1.18rem;
+    }
+
+    /* MÁGNES ANIMÁCIÓ */
+    .magnet-arena {
+      background: radial-gradient(circle at 30% 50%, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin: 6px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .magnet-arena-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    .magnet-track {
+      position: relative;
+      height: 74px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0 10px;
+    }
+
+    .magnet-anchor {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 5;
+    }
+
+    .magnet-icon-wrap {
+      width: 48px;
+      height: 48px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.45));
+    }
+
+    .magnet-stem-badge {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 8px;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      white-space: nowrap;
+    }
+
+    .badge-mely-stem {
+      background: linear-gradient(135deg, #c2410c, #ea580c);
+      border: 2px solid #fdba74;
+    }
+
+    .badge-magas-stem {
+      background: linear-gradient(135deg, #0e7490, #06b6d4);
+      border: 2px solid #67e8f9;
+    }
+
+    .aura-wave {
+      position: absolute;
+      left: 56px;
+      width: 40px;
+      height: 58px;
+      border-right: 3px dashed rgba(56, 189, 248, 0.7);
+      border-radius: 50%;
+      opacity: 0;
+      animation: rippleEffect 2s infinite ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      0% { transform: scaleX(0.7); opacity: 0.8; }
+      50% { transform: scaleX(1.3); opacity: 0.4; }
+      100% { transform: scaleX(1.8); opacity: 0; }
+    }
+
+    .affix-chip {
+      position: absolute;
+      font-size: 1.18rem;
+      font-weight: 800;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      z-index: 6;
+      transition: all 0.2s ease;
+    }
+
+    .chip-attracted {
+      left: calc(100% - 120px);
+      background: #065f46;
+      border: 2px solid #10b981;
+      color: #a7f3d0;
+      animation: snapBesideMagnet 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .chip-repelled {
+      left: calc(100% - 120px);
+      background: #1e293b;
+      border: 2px dashed #ef4444;
+      color: #fca5a5;
+      animation: repelAway 1.6s ease-out forwards;
+    }
+
+    @keyframes snapBesideMagnet {
+      0% { left: calc(100% - 120px); opacity: 0.6; transform: scale(0.9); }
+      70% { left: 200px; opacity: 1; transform: scale(1.06); }
+      85% { left: 185px; transform: scale(0.97); }
+      100% { left: 190px; opacity: 1; transform: scale(1); box-shadow: 0 0 16px rgba(16, 185, 129, 0.85); }
+    }
+
+    @keyframes repelAway {
+      0% { left: calc(100% - 120px); opacity: 0.7; transform: rotate(0deg); }
+      35% { left: 250px; opacity: 0.95; transform: rotate(0deg); }
+      60% { left: calc(100% - 140px); opacity: 0.7; transform: rotate(15deg); }
+      100% { left: calc(100% - 120px); opacity: 0.4; transform: rotate(18deg) scale(0.9); }
+    }
+
+    .btn-test-trigger {
+      align-self: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.25);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 10px rgba(6, 182, 212, 0.4);
+      transition: var(--transition-smooth);
+    }
+
+    .btn-test-trigger:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.65);
+    }
+
+    /* Példasorok */
+    .interactive-visual-box {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-top: 6px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .example-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 1.1rem;
+    }
+
+    .example-row:last-child {
+      border-bottom: none;
+    }
+
+    .stem-word {
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 1.15rem;
+    }
+
+    .affix-pill {
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .affix-ok {
+      background: rgba(16, 185, 129, 0.25);
+      border: 1px solid #10b981;
+      color: #a7f3d0;
+    }
+
+    .affix-bad {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px dashed #ef4444;
+      color: #fca5a5;
+      text-decoration: line-through;
+    }
+
+    /* Tanulói feladatkártya alul */
+    .task-card {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      border-radius: var(--radius-md);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      margin-top: 2px;
+    }
+
+    .task-icon-circle {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+    }
+
+    .task-text-content {
+      flex: 1;
+    }
+
+    .task-heading {
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #38bdf8;
+      margin-bottom: 2px;
+    }
+
+    .task-prompt-text {
+      font-size: 1.12rem;
+      color: #ffffff;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    /* Összefoglaló táblázat (5. dia) */
+    .table-container {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1.05rem;
+    }
+
+    .summary-table th {
+      background: rgba(30, 41, 59, 0.95);
+      padding: 10px 14px;
+      text-align: left;
+      color: #cbd5e1;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .summary-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: #f8fafc;
+      vertical-align: middle;
+      line-height: 1.35;
+    }
+
+    .summary-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .type-mely { color: #fdba74; font-size: 1.15rem; font-weight: 800; }
+    .type-magas { color: #67e8f9; font-size: 1.15rem; font-weight: 800; }
+    .type-vegyes { color: #c084fc; font-size: 1.15rem; font-weight: 800; }
+    .type-osszetett { color: #fde047; font-size: 1.15rem; font-weight: 800; }
+    .type-idegen { color: #f87171; font-size: 1.15rem; font-weight: 800; }
+
+    .kw-gold { color: #fde047; }
+    .kw-cyan { color: #67e8f9; }
+
+    /* Lábléc vezérlősáv */
+    .stage-footer {
+      padding: 10px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.88);
+      z-index: 10;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .step-dots-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+
+    .step-dot:hover {
+      background: rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .step-dot.active {
+      background: #06b6d4;
+      border-color: #67e8f9;
+      color: #0f172a;
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.7);
+      transform: scale(1.15);
+    }
+
+    .step-dot.passed {
+      background: rgba(6, 182, 212, 0.25);
+      border-color: rgba(6, 182, 212, 0.5);
+      color: #a5f3fc;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition-smooth);
+      border: 1px solid transparent;
+      outline: none;
+    }
+
+    .btn-restart {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-restart:hover {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+    }
+
+    .btn-prev {
+      background: rgba(30, 41, 59, 0.9);
+      color: #f1f5f9;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-prev:hover:not(:disabled) {
+      background: rgba(51, 65, 85, 1);
+      transform: translateX(-2px);
+    }
+
+    .btn-next {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+    }
+
+    .btn-next:hover:not(:disabled) {
+      background: linear-gradient(135deg, #0369a1, #0891b2);
+      transform: translateX(2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .keyboard-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .kbd {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 6. DIA: JÁTÉK STÍLUSOK */
+    .game-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .game-stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 18px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .game-question-counter {
+      color: #94a3b8;
+    }
+
+    .game-score-badge {
+      color: #10b981;
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      padding: 3px 14px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+    }
+
+    .game-play-card {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(99, 102, 241, 0.45);
+      border-radius: var(--radius-md);
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+
+    .game-stem-display {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .game-stem-label {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      font-weight: 700;
+    }
+
+    .game-stem-word {
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #ffffff;
+      background: rgba(6, 182, 212, 0.2);
+      border: 2px solid #06b6d4;
+      padding: 4px 22px;
+      border-radius: var(--radius-md);
+      letter-spacing: 1.5px;
+      text-shadow: 0 0 16px rgba(6, 182, 212, 0.5);
+    }
+
+    .game-stem-tag {
+      font-size: 1rem;
+      color: #d8b4fe;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.5);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+    }
+
+    .game-question-text {
+      font-size: 1.25rem;
+      color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .game-options-container {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .btn-game-opt {
+      font-family: inherit;
+      font-size: 1.4rem;
+      font-weight: 800;
+      padding: 10px 30px;
+      border-radius: var(--radius-md);
+      background: rgba(30, 41, 59, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+      outline: none;
+    }
+
+    .btn-game-opt:hover:not(:disabled) {
+      transform: translateY(-2px) scale(1.04);
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.25);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.45);
+    }
+
+    .btn-game-opt.opt-correct {
+      background: #065f46 !important;
+      border-color: #10b981 !important;
+      color: #a7f3d0 !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.8) !important;
+    }
+
+    .btn-game-opt.opt-wrong {
+      background: #7f1d1d !important;
+      border-color: #ef4444 !important;
+      color: #fca5a5 !important;
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .game-feedback-box {
+      min-height: 38px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 16px;
+      border-radius: var(--radius-sm);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .game-feedback-box.show {
+      opacity: 1;
+    }
+
+    .game-feedback-box.feedback-success {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid #10b981;
+      color: #34d399;
+    }
+
+    .game-feedback-box.feedback-error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #f87171;
+    }
+
+    .game-finished-card {
+      display: none;
+      background: rgba(15, 23, 42, 0.95);
+      border: 2px solid #10b981;
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+      animation: fadeInSlide 0.4s ease forwards;
+    }
+
+    /* Reszponzív nézet kisebb képernyőkre */
+    @media (max-width: 900px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+      .presentation-stage {
+        max-height: none;
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="presentation-stage" id="presentationStage" role="region" aria-label="Hangtani bemutató 6 dián">
+    
+    <!-- FEJLÉC -->
+    <header class="stage-header">
+      <div class="title-group">
+        <span class="badge-grade">5. osztály • Magyar nyelv</span>
+        <h1 class="presentation-title">Az illeszkedés törvénye és a hangrend</h1>
+      </div>
+
+      <div class="header-actions">
+        <!-- Betűméret váltó (A- / A / A+) -->
+        <div class="font-size-ctrl" title="Betűméret szabályozása">
+          <span class="font-size-label">Betű:</span>
+          <button class="btn-font-size" id="btnFontSmaller" title="Kisebb betűméret (15px)" type="button">A-</button>
+          <button class="btn-font-size active" id="btnFontDefault" title="Nagy betűméret (Alapértelmezett, jól olvasható)" type="button">A</button>
+          <button class="btn-font-size" id="btnFontLarger" title="Extra nagy betűméret (Kivetítőhöz)" type="button">A+</button>
+        </div>
+
+        <div class="slide-counter-badge" id="slideCounterBadge">
+          <span>Dia</span>
+          <span id="currentSlideText">1</span>
+          <span>/</span>
+          <span>6</span>
+        </div>
+        <button class="btn-icon-fullscreen" id="btnFullscreen" title="Teljes képernyő (F11)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- FELSŐ HALADÁSI CSÍK -->
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+
+    <!-- DIÁK TARTALMA -->
+    <section class="stage-body" id="stageBody">
+      
+      <!-- ==============================================================
+           1. DIA: AZ ILLESZKEDÉS TÖRVÉNYE (ALAPFOGALOM + ANIMÁLT MÁGNES)
+           ============================================================== -->
+      <div class="slide active" id="slide-1">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">1. dia • Alapvetés</div>
+          <h2 class="slide-main-title">Az illeszkedés törvénye</h2>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Bal kártya: A szabály és az animált mágnes -->
+          <div class="info-card">
+            <div>
+              <div class="card-title">
+                <span>🧲</span>
+                <span>A törvény meghatározása</span>
+              </div>
+              <p class="card-paragraph">
+                A toldalékok hangrendjének igazodását a szótő hangrendjéhez <strong>illeszkedésnek</strong> nevezzük.
+              </p>
+
+              <!-- ÉLŐ ANIMÁLT MÁGNES DOBOZ (1. DIA) -->
+              <div class="magnet-arena" id="arena-1">
+                <div class="magnet-arena-header">
+                  <span>🧲 MÁGNESES VONZÁS ÉS TASZÍTÁS</span>
+                  <span style="color:#10b981; font-weight:800;">ház + ban = vonzza!</span>
+                </div>
+
+                <!-- 1. Mágnespálya: Mély szótő vonzza a mély toldalékot -->
+                <div class="magnet-track" id="track-1">
+                  <div class="magnet-anchor">
+                    <div class="magnet-icon-wrap">
+                      <svg width="48" height="48" viewBox="0 0 60 60">
+                        <path d="M 12 10 C 2 20, 2 40, 12 50 L 26 50 L 26 36 L 18 36 C 14 36, 12 32, 12 28 C 12 24, 14 20, 18 20 L 26 20 L 26 6 Z" fill="#64748b"/>
+                        <rect x="26" y="6" width="16" height="14" fill="#ef4444" rx="2"/>
+                        <text x="34" y="17" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">É</text>
+                        <rect x="26" y="36" width="16" height="14" fill="#0284c7" rx="2"/>
+                        <text x="34" y="47" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">K</text>
+                      </svg>
+                      <div class="aura-wave"></div>
+                    </div>
+                    <span class="magnet-stem-badge badge-mely-stem">HÁZ</span>
+                  </div>
+
+                  <!-- Vonzott mély toldalék -->
+                  <div class="affix-chip chip-attracted" id="chip-attract-1">-ban ✓</div>
+                  <!-- Taszított magas toldalék -->
+                  <div class="affix-chip chip-repelled" id="chip-repel-1">-ben ✗</div>
+                </div>
+
+                <button class="btn-test-trigger" id="btn-replay-1" type="button">
+                  <span>▶ Mágnes bekapcsolása (vonzás újraindítása)</span>
+                </button>
+              </div>
+
+            </div>
+            
+            <div class="card-note">
+              Toldalékfajták: <strong>kétalakú</strong> (pl. <em>-ban/-ben</em>) és <strong>háromalakú</strong> (pl. <em>-hoz/-hez/-höz</em>).
+            </div>
+          </div>
+
+          <!-- Jobb kártya: A két tábor és a Varázsszavak -->
+          <div class="info-card">
+            <div>
+              <div class="card-title">
+                <span>🪄</span>
+                <span>A két hangrendi tábor & Varázsszavak</span>
+              </div>
+              
+              <!-- Mély csoport -->
+              <div style="margin-top:4px;">
+                <span style="font-size:1.02rem; font-weight:800; color:#fdba74;">MÉLY MAGÁNHANGZÓK (hátul képzettek):</span><br>
+                <span class="pill-vowels vowels-mely">a, á, o, ó, u, ú</span><br>
+                <div class="magic-word-badge">
+                  <span>Varázsszó:</span> <strong>AUTÓ</strong> vagy <strong>HÁBORÚ</strong>
+                </div>
+              </div>
+
+              <!-- Magas csoport -->
+              <div style="margin-top:10px;">
+                <span style="font-size:1.02rem; font-weight:800; color:#67e8f9;">MAGAS MAGÁNHANGZÓK (elöl képzettek):</span><br>
+                <span class="pill-vowels vowels-magas">e, é, i, í, ö, ő, ü, ű</span><br>
+                <div class="magic-word-badge">
+                  <span>Varázsszó:</span> <strong>TENISZÜTŐ</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-note">
+              A varázsszavak segítenek azonnal megállapítani, hogy egy betű mély vagy magas hangrendű-e!
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanulói feladat -->
+        <div class="task-card">
+          <div class="task-icon-circle">🎯</div>
+          <div class="task-text-content">
+            <div class="task-heading">Tanulói feladat • 1. dia</div>
+            <div class="task-prompt-text">
+              Mondd ki hangosan a két varázsszót: <strong>„autó”</strong> és <strong>„teniszütő”</strong>! Érzed, ahogy az <em>autó</em>nál hátrahúzódik a nyelved, a <em>teniszütő</em>nél pedig előrejön a fogsorod mögé?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           2. DIA: MAGAS HANGRENDŰ A SZÓTŐ (ANIMÁLT MÁGNESSEL)
+           ============================================================== -->
+      <div class="slide" id="slide-2">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">2. dia • Magas hangrend</div>
+          <h2 class="slide-main-title">Magas hangrendű a szótő</h2>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Bal kártya: Szabály és Magas Mágnes -->
+          <div class="info-card card-magas">
+            <div>
+              <div class="card-title" style="color:#67e8f9;">
+                <span>❄️</span>
+                <span>Magas szótő → Magas toldalék</span>
+              </div>
+              <p class="card-paragraph">
+                Ha a szótőben <strong>csak magas magánhangzók</strong> vannak (<em>e, é, i, í, ö, ő, ü, ű</em>), a mágnes kizárólag a magas toldalékot vonzza magához!
+              </p>
+
+              <!-- ÉLŐ ANIMÁLT MÁGNES DOBOZ (2. DIA) -->
+              <div class="magnet-arena" id="arena-2">
+                <div class="magnet-arena-header">
+                  <span>🧲 MAGAS MÁGNES MŰKÖDÉSBEN</span>
+                  <span style="color:#67e8f9; font-weight:800;">kert + ben = vonzza!</span>
+                </div>
+
+                <div class="magnet-track" id="track-2">
+                  <div class="magnet-anchor">
+                    <div class="magnet-icon-wrap">
+                      <svg width="48" height="48" viewBox="0 0 60 60">
+                        <path d="M 12 10 C 2 20, 2 40, 12 50 L 26 50 L 26 36 L 18 36 C 14 36, 12 32, 12 28 C 12 24, 14 20, 18 20 L 26 20 L 26 6 Z" fill="#64748b"/>
+                        <rect x="26" y="6" width="16" height="14" fill="#0284c7" rx="2"/>
+                        <text x="34" y="17" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">K</text>
+                        <rect x="26" y="36" width="16" height="14" fill="#ef4444" rx="2"/>
+                        <text x="34" y="47" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">É</text>
+                      </svg>
+                      <div class="aura-wave"></div>
+                    </div>
+                    <span class="magnet-stem-badge badge-magas-stem">KERT</span>
+                  </div>
+
+                  <!-- Vonzott magas toldalék -->
+                  <div class="affix-chip chip-attracted" id="chip-attract-2">-ben ✓</div>
+                  <!-- Taszított mély toldalék -->
+                  <div class="affix-chip chip-repelled" id="chip-repel-2">-ban ✗</div>
+                </div>
+
+                <button class="btn-test-trigger" id="btn-replay-2" type="button">
+                  <span>▶ Mágnes bekapcsolása (vonzás újraindítása)</span>
+                </button>
+              </div>
+
+            </div>
+
+            <div class="magic-word-badge" style="border-color:#06b6d4;">
+              <span>Varázsszó ellenőrzéshez:</span> <strong>TENISZÜTŐ</strong>
+            </div>
+          </div>
+
+          <!-- Jobb kártya: Ajakműködés szerinti illeszkedés -->
+          <div class="info-card card-magas">
+            <div>
+              <div class="card-title" style="color:#67e8f9;">
+                <span>👄</span>
+                <span>Ajakréses és Ajakkerekítéses illeszkedés</span>
+              </div>
+              <p class="card-paragraph">
+                Háromalakú toldalékoknál (<em>-hoz / -hez / -höz</em>) a magas szavaknál még az ajkak állása is számít!
+              </p>
+
+              <div class="interactive-visual-box" style="margin-top:8px;">
+                <div style="margin-bottom:8px;">
+                  <strong style="color:#67e8f9; font-size:1.15rem;">Ajakréses szótő (e, é, i, í):</strong><br>
+                  <span>kép → kép<strong>hez</strong> (nem <em>*kép-höz</em>!)</span>
+                </div>
+                <div>
+                  <strong style="color:#c084fc; font-size:1.15rem;">Ajakkerekítéses szótő (ö, ő, ü, ű):</strong><br>
+                  <span>tök → tök<strong>höz</strong>, fül → fül<strong>höz</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-note">
+              Ezért van 3 alakja a toldaléknak: <em>-hoz</em> (mély), <em>-hez</em> (magas réses), <em>-höz</em> (magas kerekített).
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanulói feladat -->
+        <div class="task-card">
+          <div class="task-icon-circle">🎯</div>
+          <div class="task-text-content">
+            <div class="task-heading">Tanulói feladat • 2. dia</div>
+            <div class="task-prompt-text">
+              Toldalékold a <strong>„füzet”</strong> szót a <em>-ban/-ben</em>, és az <strong>„üst”</strong> szót a <em>-hoz/-hez/-höz</em> raggal! Milyen magánhangzót választasz hozzájuk?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           3. DIA: MÉLY HANGRENDŰ A SZÓTŐ (ANIMÁLT MÁGNESSEL)
+           ============================================================== -->
+      <div class="slide" id="slide-3">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">3. dia • Mély hangrend</div>
+          <h2 class="slide-main-title">Mély hangrendű a szótő</h2>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Bal kártya: Szabály és Mély Mágnes -->
+          <div class="info-card card-mely">
+            <div>
+              <div class="card-title" style="color:#fdba74;">
+                <span>☀️</span>
+                <span>Mély szótő → Mély toldalék</span>
+              </div>
+              <p class="card-paragraph">
+                Ha a szótőben <strong>csak mély magánhangzók</strong> szerepelnek (<em>a, á, o, ó, u, ú</em>), a mágnes mindig a mély magánhangzós toldalékot rántja magához.
+              </p>
+
+              <!-- ÉLŐ ANIMÁLT MÁGNES DOBOZ (3. DIA) -->
+              <div class="magnet-arena" id="arena-3">
+                <div class="magnet-arena-header">
+                  <span>🧲 HÁROMALAKÚ MÉLY MÁGNES</span>
+                  <span style="color:#fdba74; font-weight:800;">asztal + on = vonzza!</span>
+                </div>
+
+                <div class="magnet-track" id="track-3">
+                  <div class="magnet-anchor">
+                    <div class="magnet-icon-wrap">
+                      <svg width="48" height="48" viewBox="0 0 60 60">
+                        <path d="M 12 10 C 2 20, 2 40, 12 50 L 26 50 L 26 36 L 18 36 C 14 36, 12 32, 12 28 C 12 24, 14 20, 18 20 L 26 20 L 26 6 Z" fill="#64748b"/>
+                        <rect x="26" y="6" width="16" height="14" fill="#ea580c" rx="2"/>
+                        <text x="34" y="17" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">M</text>
+                        <rect x="26" y="36" width="16" height="14" fill="#0284c7" rx="2"/>
+                        <text x="34" y="47" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">M</text>
+                      </svg>
+                      <div class="aura-wave"></div>
+                    </div>
+                    <span class="magnet-stem-badge badge-mely-stem">ASZTAL</span>
+                  </div>
+
+                  <!-- Vonzott mély toldalék -->
+                  <div class="affix-chip chip-attracted" id="chip-attract-3">-on ✓</div>
+                  <!-- Taszított magas toldalékok -->
+                  <div class="affix-chip chip-repelled" id="chip-repel-3">-en/-ön ✗</div>
+                </div>
+
+                <button class="btn-test-trigger" id="btn-replay-3" type="button">
+                  <span>▶ Mágnes bekapcsolása (vonzás újraindítása)</span>
+                </button>
+              </div>
+
+            </div>
+
+            <div class="magic-word-badge" style="border-color:#f97316;">
+              <span>Varázsszavak ellenőrzéshez:</span> <strong>AUTÓ</strong>, <strong>HÁBORÚ</strong>
+            </div>
+          </div>
+
+          <!-- Jobb kártya: Háromalakú toldalékok mély szavaknál -->
+          <div class="info-card card-mely">
+            <div>
+              <div class="card-title" style="color:#fdba74;">
+                <span>⚖️</span>
+                <span>Mi a helyzet a háromalakúakkal?</span>
+              </div>
+              <p class="card-paragraph">
+                A mély hangrendű szavaknál egyszerű a dolgunk: nincs ajakállás szerinti kettéválás! A mély hangok mindig az egyetlen mély alakot választják:
+              </p>
+
+              <div class="interactive-visual-box" style="margin-top:8px;">
+                <div class="example-row">
+                  <span class="stem-word">-hoz / -hez / -höz:</span>
+                  <span>ház<strong>hoz</strong>, kapu<strong>hoz</strong>, ló<strong>hoz</strong></span>
+                </div>
+                <div class="example-row">
+                  <span class="stem-word">-on / -en / -ön:</span>
+                  <span>asztal<strong>on</strong>, part<strong>on</strong>, pad<strong>on</strong></span>
+                </div>
+                <div class="example-row">
+                  <span class="stem-word">-ból / -ből:</span>
+                  <span>kutya<strong>ból</strong>, falu<strong>ból</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-note">
+              Próbáld ki: <em>asztalen</em> vagy <em>padön</em>? A fülünk és nyelvünk azonnal tiltakozik ellene!
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanulói feladat -->
+        <div class="task-card">
+          <div class="task-icon-circle">🎯</div>
+          <div class="task-text-content">
+            <div class="task-heading">Tanulói feladat • 3. dia</div>
+            <div class="task-prompt-text">
+              Toldalékold az <strong>„ablak”</strong> és a <strong>„kapu”</strong> szavakat a <em>-nál/-nél</em> és a <em>-hoz/-hez/-höz</em> toldalékokkal! Melyik illeszkedik hozzájuk?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           4. DIA: VEGYES HANGRENDŰ A SZÓTŐ
+           ============================================================== -->
+      <div class="slide" id="slide-4">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">4. dia • Vegyes hangrend & Kivételek</div>
+          <h2 class="slide-main-title">Vegyes hangrendű a szótő</h2>
+        </div>
+
+        <div class="grid-2col">
+          <!-- Bal kártya: Alapszabály vegyes szavaknál -->
+          <div class="info-card card-vegyes">
+            <div>
+              <div class="card-title" style="color:#c084fc;">
+                <span>🔮</span>
+                <span>Főszabály: A mély hangok győznek!</span>
+              </div>
+              <p class="card-paragraph" style="margin-top:4px;">
+                Vegyes hangrendű szóban <strong>mély és magas hangok is</strong> szerepelnek. A magyar nyelv törvénye szerint a vegyes szavak <strong>többnyire mély toldalékot kapnak</strong>:
+              </p>
+
+              <div class="interactive-visual-box">
+                <div class="example-row">
+                  <span class="stem-word">virág (i + á)</span>
+                  <span>→</span>
+                  <span>virág<strong>ban</strong>, virág<strong>nak</strong></span>
+                </div>
+                <div class="example-row">
+                  <span class="stem-word">béka (é + a)</span>
+                  <span>→</span>
+                  <span>béka<strong>hoz</strong>, béká<strong>val</strong></span>
+                </div>
+                <div class="example-row">
+                  <span class="stem-word">papír (a + í)</span>
+                  <span>→</span>
+                  <span>papír<strong>on</strong>, papír<strong>ral</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-note" style="color:#d8b4fe;">
+              Miért? Mert az <strong>i, í, é</strong> hangok semlegesen viselkednek a mély hangok mellett.
+            </div>
+          </div>
+
+          <!-- Jobb kártya: Összetett és Idegen szavak (Kivételek!) -->
+          <div class="info-card card-vegyes">
+            <div>
+              <div class="card-title" style="color:#c084fc;">
+                <span>⚠️</span>
+                <span>Két fontos kivétel (Összetett & Idegen szavak)</span>
+              </div>
+
+              <!-- 1. Összetett szavak -->
+              <div style="margin-top:4px;">
+                <strong style="color:#ffffff; font-size:1.12rem;">1. Összetett szavak:</strong><br>
+                <span style="color:#e2e8f0; font-size:1.02rem;">Mindig az <strong>utolsó összetételi tag</strong> dönt!</span>
+                <div style="padding:4px 10px; background:rgba(255,255,255,0.08); border-radius:6px; margin-top:3px; font-size:1.05rem;">
+                  <em>Buda</em> [mély] + <em>pest</em> [magas] → Buda<strong>pesten</strong>!
+                </div>
+              </div>
+
+              <!-- 2. Idegen szavak -->
+              <div style="margin-top:8px;">
+                <strong style="color:#ffffff; font-size:1.12rem;">2. Idegen szavak:</strong><br>
+                <span style="color:#e2e8f0; font-size:1.02rem;">Az <strong>utolsó kiejtett magánhangzó</strong> dönti el:</span>
+                <div style="padding:4px 10px; background:rgba(255,255,255,0.08); border-radius:6px; margin-top:3px; font-size:1.05rem;">
+                  <em>sofőr</em> → sofőr<strong>höz</strong> | <em>kosztüm</em> → kosztüm<strong>ben</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-note">
+              Ezekre a szavakra a szigorú belső hangrendi törvény nem vonatkozik!
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanulói feladat -->
+        <div class="task-card">
+          <div class="task-icon-circle">🎯</div>
+          <div class="task-text-content">
+            <div class="task-heading">Tanulói feladat • 4. dia</div>
+            <div class="task-prompt-text">
+              Toldalékold a <strong>„kávé”</strong>, a <strong>„szénbánya”</strong> és a <strong>„hotel”</strong> szavakat a <em>-ban/-ben</em> raggal! Indokold meg a választásodat!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           5. DIA: ÖSSZEFOGLALÓ TÁBLÁZAT
+           ============================================================== -->
+      <div class="slide" id="slide-5">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">5. dia • Rendszerezés</div>
+          <h2 class="slide-main-title">Összefoglaló táblázat</h2>
+        </div>
+
+        <div class="table-container">
+          <table class="summary-table">
+            <thead>
+              <tr>
+                <th style="width: 21%;">Szótő típusa</th>
+                <th style="width: 26%;">Hangok jellemzője</th>
+                <th style="width: 19%;">Varázsszó / Segítség</th>
+                <th style="width: 19%;">Toldalék illeszkedése</th>
+                <th style="width: 15%;">Mintapéldák</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="type-mely">Mély hangrendű</strong></td>
+                <td>Csak mély magánhangzó: <em>a, á, o, ó, u, ú</em></td>
+                <td><strong class="kw-gold">AUTÓ</strong>, <strong class="kw-gold">HÁBORÚ</strong></td>
+                <td><span class="affix-pill affix-ok">Csak mély toldalék</span></td>
+                <td>ház<strong>ban</strong>, asztal<strong>on</strong></td>
+              </tr>
+              <tr>
+                <td><strong class="type-magas">Magas hangrendű</strong></td>
+                <td>Csak magas magánhangzó: <em>e, é, i, í, ö, ő, ü, ű</em></td>
+                <td><strong class="kw-cyan">TENISZÜTŐ</strong></td>
+                <td><span class="affix-pill affix-ok">Csak magas toldalék</span> <small>(ajakállás!)</small></td>
+                <td>kert<strong>ben</strong>, szék<strong>hez</strong></td>
+              </tr>
+              <tr>
+                <td><strong class="type-vegyes">Vegyes hangrendű</strong></td>
+                <td>Mély és magas hangok vegyesen</td>
+                <td>Általában a <strong>mély hangok győznek</strong>!</td>
+                <td><span class="affix-pill affix-ok">Többnyire mély</span></td>
+                <td>virág<strong>ban</strong>, béka<strong>nak</strong></td>
+              </tr>
+              <tr>
+                <td><strong class="type-osszetett">Összetett szó</strong></td>
+                <td>Két vagy több különálló szó alkotja</td>
+                <td>Mindig az <strong>utolsó tag</strong> dönt!</td>
+                <td>Utolsó tag hangrendje szerint</td>
+                <td>Buda-<strong>pesten</strong>, tollal</td>
+              </tr>
+              <tr>
+                <td><strong class="type-idegen">Idegen szó</strong></td>
+                <td>Más nyelvből átvett újabb szavak</td>
+                <td>Az <strong>utolsó szótag</strong> dönt!</td>
+                <td>Utolsó magánhangzó szerint</td>
+                <td>sofőr<strong>höz</strong>, kosztüm<strong>ben</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Záró összefoglaló kártya -->
+        <div class="task-card" style="border-color:#10b981;">
+          <div class="task-icon-circle" style="background:linear-gradient(135deg, #10b981, #06b6d4);">🏆</div>
+          <div class="task-text-content">
+            <div class="task-heading" style="color:#10b981;">Aranyszabály az 5. osztályosoknak</div>
+            <div class="task-prompt-text">
+              <strong>Jegyezd meg:</strong> A magyar szavak dallamát az illeszkedés adja. Ha bizonytalan vagy egy szónál, hívd segítségül a <strong>varázsszavakat</strong> (<em>autó, teniszütő</em>), és ejtsd ki a szót toldalékkal – a füled és a nyelved azonnal megsúgja a helyes alakot!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           6. DIA: INTERAKTÍV ELLENŐRZŐ JÁTÉK
+           ============================================================== -->
+      <div class="slide" id="slide-6">
+        <div class="slide-header-box">
+          <div class="slide-subtitle">6. dia • Interaktív gyakorlás</div>
+          <h2 class="slide-main-title">Toldalék-mágnes játék: Illeszd a helyére!</h2>
+        </div>
+
+        <div class="game-wrapper">
+          <!-- Játék fejléc pontszámmal -->
+          <div class="game-stats-bar">
+            <div class="game-question-counter" id="gameQuestionCounter">Kérdés: 1 / 17</div>
+            <div class="game-score-badge" id="gameScoreBadge">Pontszám: 0 pont</div>
+          </div>
+
+          <!-- Játékos kártya -->
+          <div class="game-play-card" id="gamePlayCard">
+            <div class="game-stem-display">
+              <span class="game-stem-label">Szótő:</span>
+              <span class="game-stem-word" id="gameStemWord">virág</span>
+              <span class="game-stem-tag" id="gameStemTag">1. tanuló • (i + á = vegyes)</span>
+            </div>
+
+            <div class="game-question-text" id="gameQuestionText">
+              Melyik toldalék illeszkedik hozzá helyesen?
+            </div>
+
+            <!-- Választógombok -->
+            <div class="game-options-container" id="gameOptionsContainer">
+              <!-- Gombok dinamikusan betöltve JS-ből -->
+            </div>
+
+            <!-- Visszajelzés doboz -->
+            <div class="game-feedback-box" id="gameFeedbackBox"></div>
+          </div>
+
+          <!-- Játék végi összefoglaló kártya (kezdetben rejtett) -->
+          <div class="game-finished-card" id="gameFinishedCard">
+            <div style="font-size:3rem; margin-bottom:8px;">🏆</div>
+            <h3 style="font-size:1.6rem; color:#67e8f9; margin-bottom:8px;">Ügyes vagy! Teljesítetted a játékot!</h3>
+            <div style="font-size:1.25rem; color:#f1f5f9; margin-bottom:16px;" id="gameFinalScore">Végeredmény: 17 / 17 pont</div>
+            <button class="btn btn-next" id="btnRestartGame" type="button" style="font-size:1.15rem; padding:10px 24px;">
+              <span>🔄 Újrakezdés</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tanulói feladatkártya alul -->
+        <div class="task-card" style="border-color:#10b981;">
+          <div class="task-icon-circle" style="background:linear-gradient(135deg, #10b981, #06b6d4);">🎮</div>
+          <div class="task-text-content">
+            <div class="task-heading" style="color:#10b981;">Órai játékos feladat • 6. dia</div>
+            <div class="task-prompt-text">
+              Kattints a helyes toldalékra! Figyeld a magánhangzókat és a varázsszavakat (<em>autó</em>, <em>teniszütő</em>)! Ügyelj az összetett és idegen szavak kivételeire is!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- LÁBLÉC: VEZÉRLŐPULT -->
+    <footer class="stage-footer">
+      
+      <!-- LÉPÉS / DIA GOMBOK (1-6) -->
+      <nav class="step-dots-container" aria-label="Diák navigációja">
+        <button class="step-dot active" data-slide="1" title="1. dia: Az illeszkedés törvénye">1</button>
+        <button class="step-dot" data-slide="2" title="2. dia: Magas hangrendű szótő">2</button>
+        <button class="step-dot" data-slide="3" title="3. dia: Mély hangrendű szótő">3</button>
+        <button class="step-dot" data-slide="4" title="4. dia: Vegyes hangrendű szótő">4</button>
+        <button class="step-dot" data-slide="5" title="5. dia: Összefoglaló táblázat">5</button>
+        <button class="step-dot" data-slide="6" title="6. dia: Interaktív ellenőrző játék">6</button>
+      </nav>
+
+      <!-- BILLENTYŰZET SEGÉDLET -->
+      <div class="keyboard-hint">
+        <span>Vezérlés:</span>
+        <span class="kbd">◀</span>
+        <span class="kbd">▶</span>
+        <span>vagy kattintás</span>
+      </div>
+
+      <!-- GOMBOK -->
+      <div class="btn-group">
+        <button class="btn btn-restart" id="btnRestart" title="Vissza az 1. diára">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span>Elejére</span>
+        </button>
+
+        <button class="btn btn-prev" id="btnPrev" disabled title="Előző dia (Balra nyíl)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+          <span>Előző dia</span>
+        </button>
+
+        <button class="btn btn-next" id="btnNext" title="Következő dia (Jobbra nyíl / Szóköz)">
+          <span>Következő dia</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </button>
+      </div>
+
+    </footer>
+
+  </main>
+
+  <!-- VEZÉRLŐ JAVASCRIPT -->
+  <script>
+    class FiveSlidePresentation {
+      constructor() {
+        this.currentSlide = 1;
+        this.totalSlides = 6;
+
+        this.dom = {
+          stageBody: document.getElementById('stageBody'),
+          currentSlideText: document.getElementById('currentSlideText'),
+          progressBar: document.getElementById('progressBarFill'),
+          btnPrev: document.getElementById('btnPrev'),
+          btnNext: document.getElementById('btnNext'),
+          btnRestart: document.getElementById('btnRestart'),
+          btnFullscreen: document.getElementById('btnFullscreen'),
+          btnFontSmaller: document.getElementById('btnFontSmaller'),
+          btnFontDefault: document.getElementById('btnFontDefault'),
+          btnFontLarger: document.getElementById('btnFontLarger'),
+          stepDots: document.querySelectorAll('.step-dot'),
+          slides: [
+            document.getElementById('slide-1'),
+            document.getElementById('slide-2'),
+            document.getElementById('slide-3'),
+            document.getElementById('slide-4'),
+            document.getElementById('slide-5'),
+            document.getElementById('slide-6')
+          ]
+        };
+
+        this.init();
+      }
+
+      init() {
+        this.initFontSize();
+        this.bindEvents();
+        this.bindMagnetTriggers();
+        this.renderSlide(1);
+      }
+
+      initFontSize() {
+        const saved = localStorage.getItem('illeszkedes_font_size') || 'large';
+        this.setFontSize(saved);
+
+        if (this.dom.btnFontSmaller) {
+          this.dom.btnFontSmaller.addEventListener('click', () => this.setFontSize('normal'));
+        }
+        if (this.dom.btnFontDefault) {
+          this.dom.btnFontDefault.addEventListener('click', () => this.setFontSize('large'));
+        }
+        if (this.dom.btnFontLarger) {
+          this.dom.btnFontLarger.addEventListener('click', () => this.setFontSize('huge'));
+        }
+      }
+
+      setFontSize(size) {
+        document.documentElement.classList.remove('font-size-normal', 'font-size-large', 'font-size-huge');
+        if (this.dom.btnFontSmaller) this.dom.btnFontSmaller.classList.remove('active');
+        if (this.dom.btnFontDefault) this.dom.btnFontDefault.classList.remove('active');
+        if (this.dom.btnFontLarger) this.dom.btnFontLarger.classList.remove('active');
+
+        if (size === 'normal') {
+          document.documentElement.classList.add('font-size-normal');
+          if (this.dom.btnFontSmaller) this.dom.btnFontSmaller.classList.add('active');
+        } else if (size === 'huge') {
+          document.documentElement.classList.add('font-size-huge');
+          if (this.dom.btnFontLarger) this.dom.btnFontLarger.classList.add('active');
+        } else {
+          document.documentElement.classList.add('font-size-large');
+          if (this.dom.btnFontDefault) this.dom.btnFontDefault.classList.add('active');
+        }
+        localStorage.setItem('illeszkedes_font_size', size);
+      }
+
+      bindEvents() {
+        this.dom.btnNext.addEventListener('click', () => this.nextSlide());
+        this.dom.btnPrev.addEventListener('click', () => this.prevSlide());
+        this.dom.btnRestart.addEventListener('click', () => this.goToSlide(1));
+
+        this.dom.stepDots.forEach(dot => {
+          dot.addEventListener('click', (e) => {
+            const slideNum = parseInt(e.currentTarget.getAttribute('data-slide'), 10);
+            if (!isNaN(slideNum)) this.goToSlide(slideNum);
+          });
+        });
+
+        // Billentyűzet kezelés
+        window.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+            e.preventDefault();
+            this.nextSlide();
+          } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            e.preventDefault();
+            this.prevSlide();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            this.goToSlide(1);
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            this.goToSlide(this.totalSlides);
+          }
+        });
+
+        // Teljes képernyő
+        this.dom.btnFullscreen.addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+          }
+        });
+      }
+
+      bindMagnetTriggers() {
+        const btn1 = document.getElementById('btn-replay-1');
+        if (btn1) btn1.addEventListener('click', () => this.replayMagnet(1));
+
+        const btn2 = document.getElementById('btn-replay-2');
+        if (btn2) btn2.addEventListener('click', () => this.replayMagnet(2));
+
+        const btn3 = document.getElementById('btn-replay-3');
+        if (btn3) btn3.addEventListener('click', () => this.replayMagnet(3));
+      }
+
+      replayMagnet(slideNum) {
+        const attract = document.getElementById(`chip-attract-${slideNum}`);
+        const repel = document.getElementById(`chip-repel-${slideNum}`);
+        if (attract && repel) {
+          attract.classList.remove('chip-attracted');
+          repel.classList.remove('chip-repelled');
+          void attract.offsetWidth;
+          void repel.offsetWidth;
+          attract.classList.add('chip-attracted');
+          repel.classList.add('chip-repelled');
+        }
+      }
+
+      nextSlide() {
+        if (this.currentSlide < this.totalSlides) {
+          this.goToSlide(this.currentSlide + 1);
+        }
+      }
+
+      prevSlide() {
+        if (this.currentSlide > 1) {
+          this.goToSlide(this.currentSlide - 1);
+        }
+      }
+
+      goToSlide(slideNum) {
+        if (slideNum < 1 || slideNum > this.totalSlides) return;
+        this.currentSlide = slideNum;
+        this.renderSlide(this.currentSlide);
+      }
+
+      renderSlide(slideNum) {
+        // Gördítés visszaállítása a tetejére minden diaváltásnál
+        if (this.dom.stageBody) {
+          this.dom.stageBody.scrollTop = 0;
+        }
+
+        this.dom.currentSlideText.textContent = slideNum;
+        this.dom.progressBar.style.width = `${(slideNum / this.totalSlides) * 100}%`;
+
+        this.dom.btnPrev.disabled = (slideNum === 1);
+        this.dom.btnNext.disabled = (slideNum === this.totalSlides);
+
+        this.dom.stepDots.forEach(dot => {
+          const num = parseInt(dot.getAttribute('data-slide'), 10);
+          dot.classList.remove('active', 'passed');
+          if (num === slideNum) dot.classList.add('active');
+          else if (num < slideNum) dot.classList.add('passed');
+        });
+
+        this.dom.slides.forEach((slide, idx) => {
+          if (idx + 1 === slideNum) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        if (slideNum >= 1 && slideNum <= 3) {
+          this.replayMagnet(slideNum);
+        }
+      }
+    }
+
+    // JÁTÉK LOGIKA (6. DIA)
+    const GAME_QUESTIONS = [
+      {"stem": "virág", "tag": "i + á = vegyes", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ban", "-ben"], "correct": 0, "explanation": "Helyes! A virág vegyes hangrendű szó, a mély hangrend győz: virágban!"},
+      {"stem": "szék", "tag": "é = magas, ajakréses", "prompt": "Melyik háromalakú toldalék illik hozzá?", "options": ["-hoz", "-hez", "-höz"], "correct": 1, "explanation": "Tökéletes! Magas, ajakréses hanghoz a -hez illik: székhez!"},
+      {"stem": "tök", "tag": "ö = magas, ajakkerekítéses", "prompt": "Melyik háromalakú toldalék illik hozzá?", "options": ["-hoz", "-hez", "-höz"], "correct": 2, "explanation": "Kiváló! A kerekített 'ö' hanghoz a -höz illik: tökhöz!"},
+      {"stem": "madár", "tag": "a + á = mély", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-nak", "-nek"], "correct": 0, "explanation": "Nagyszerű! Csak mély hangokat tartalmaz (autó): madárnak!"},
+      {"stem": "füzet", "tag": "ü + e = magas", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ban", "-ben"], "correct": 1, "explanation": "Pontos! Magas hangrendű szó (teniszütő): füzetben!"},
+      {"stem": "Budapest", "tag": "összetett szó!", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-on", "-en", "-ön"], "correct": 1, "explanation": "Zseniális! Összetett szónál az utolsó tag (Pest) dönt: Budapesten!"},
+      {"stem": "ablak", "tag": "a + a = mély", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-nál", "-nél"], "correct": 0, "explanation": "Hibátlan! Mély hangrendű szó: ablaknál!"},
+      {"stem": "hotel", "tag": "idegen szó!", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ban", "-ben"], "correct": 1, "explanation": "Nagyon jó! Idegen szavaknál az utolsó magánhangzó (e) dönt: hotelben!"},
+      {"stem": "béka", "tag": "é + a = vegyes", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-val", "-vel"], "correct": 0, "explanation": "Ügyes vagy! Vegyes szó, a mély magánhangzó győz: békával!"},
+      {"stem": "golyóstoll", "tag": "összetett szó!", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-al", "-el"], "correct": 0, "explanation": "Remek! Az utolsó összetételi tag a 'toll' (mély): golyóstollal!"},
+      {"stem": "erdő", "tag": "e + ő = magas", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ben", "-ban"], "correct": 0, "explanation": "Nagyszerű! Magas hangrendű szó (teniszütő): erdőben!"},
+      {"stem": "papír", "tag": "a + í = vegyes", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ra", "-re"], "correct": 0, "explanation": "Pontos! A papír vegyes hangrendű, a mély hangrend érvényesül: papírra!"},
+      {"stem": "sofőr", "tag": "idegen szó!", "prompt": "Melyik háromalakú toldalék illik hozzá?", "options": ["-hoz", "-hez", "-höz"], "correct": 2, "explanation": "Kiváló! Idegen szó, az utolsó kiejtett hang (ő = kerekített magas) dönt: sofőrhöz!"},
+      {"stem": "kapu", "tag": "a + u = mély", "prompt": "Melyik háromalakú toldalék illik hozzá?", "options": ["-hoz", "-hez", "-höz"], "correct": 0, "explanation": "Hibátlan! Mély hangrendű szónál mindig a mély alak járul: kapuhoz!"},
+      {"stem": "kávé", "tag": "á + é = vegyes", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ban", "-ben"], "correct": 0, "explanation": "Ügyes! Vegyes hangrendű szó, a mély magánhangzó határozza meg: kávéban!"},
+      {"stem": "ezüst", "tag": "e + ü = magas", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ből", "-ból"], "correct": 0, "explanation": "Tökéletes! Csak magas hangokat tartalmaz: ezüstből!"},
+      {"stem": "szénbánya", "tag": "összetett szó!", "prompt": "Melyik toldalék illeszkedik hozzá?", "options": ["-ban", "-ben"], "correct": 0, "explanation": "Bravó! Összetett szó, a második tag a 'bánya' (mély): szénbányában!"}
+    ];
+
+    class IlleszkedesGame {
+      constructor() {
+        this.questions = [];
+        this.currentIdx = 0;
+        this.score = 0;
+        this.total = GAME_QUESTIONS.length;
+        this.locked = false;
+
+        this.dom = {
+          counter: document.getElementById('gameQuestionCounter'),
+          scoreBadge: document.getElementById('gameScoreBadge'),
+          stemWord: document.getElementById('gameStemWord'),
+          stemTag: document.getElementById('gameStemTag'),
+          questionText: document.getElementById('gameQuestionText'),
+          optionsContainer: document.getElementById('gameOptionsContainer'),
+          feedbackBox: document.getElementById('gameFeedbackBox'),
+          playCard: document.getElementById('gamePlayCard'),
+          finishedCard: document.getElementById('gameFinishedCard'),
+          finalScore: document.getElementById('gameFinalScore'),
+          btnRestart: document.getElementById('btnRestartGame')
+        };
+
+        this.init();
+      }
+
+      init() {
+        if (this.dom.btnRestart) {
+          this.dom.btnRestart.addEventListener('click', () => this.restart());
+        }
+        this.restart();
+      }
+
+      shuffleQuestions() {
+        this.questions = JSON.parse(JSON.stringify(GAME_QUESTIONS));
+        for (let i = this.questions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [this.questions[i], this.questions[j]] = [this.questions[j], this.questions[i]];
+        }
+      }
+
+      restart() {
+        this.shuffleQuestions();
+        this.currentIdx = 0;
+        this.score = 0;
+        this.locked = false;
+        this.dom.playCard.style.display = 'flex';
+        this.dom.finishedCard.style.display = 'none';
+        this.renderQuestion();
+      }
+
+      renderQuestion() {
+        if (this.currentIdx >= this.total) {
+          this.showFinished();
+          return;
+        }
+
+        const q = this.questions[this.currentIdx];
+        this.locked = false;
+
+        this.dom.counter.textContent = `Kérdés: ${this.currentIdx + 1} / ${this.total}`;
+        this.dom.scoreBadge.textContent = `Pontszám: ${this.score} pont`;
+        this.dom.stemWord.textContent = q.stem;
+        this.dom.stemTag.textContent = `${this.currentIdx + 1}. tanuló • ${q.tag}`;
+        this.dom.questionText.textContent = q.prompt;
+
+        this.dom.feedbackBox.className = 'game-feedback-box';
+        this.dom.feedbackBox.textContent = '';
+
+        const shuffledOptions = q.options.map((optText, origIdx) => ({
+          text: optText,
+          isCorrect: (origIdx === q.correct)
+        }));
+
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+
+        this.dom.optionsContainer.innerHTML = '';
+        shuffledOptions.forEach((item) => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-game-opt';
+          btn.type = 'button';
+          btn.textContent = item.text;
+          btn.addEventListener('click', () => this.handleAnswer(item.isCorrect, btn));
+          this.dom.optionsContainer.appendChild(btn);
+        });
+      }
+
+      handleAnswer(isCorrect, clickedBtn) {
+        if (this.locked) return;
+        this.locked = true;
+
+        const q = this.questions[this.currentIdx];
+        const allButtons = this.dom.optionsContainer.querySelectorAll('.btn-game-opt');
+
+        if (isCorrect) {
+          this.score++;
+          this.dom.scoreBadge.textContent = `Pontszám: ${this.score} pont`;
+          clickedBtn.classList.add('opt-correct');
+          this.dom.feedbackBox.className = 'game-feedback-box feedback-success show';
+          this.dom.feedbackBox.innerHTML = `🎉 ${q.explanation}`;
+        } else {
+          clickedBtn.classList.add('opt-wrong');
+          allButtons.forEach(btn => {
+            if (btn.textContent === q.options[q.correct]) {
+              btn.classList.add('opt-correct');
+            }
+          });
+          this.dom.feedbackBox.className = 'game-feedback-box feedback-error show';
+          this.dom.feedbackBox.innerHTML = `❌ ${q.explanation}`;
+        }
+
+        setTimeout(() => {
+          this.currentIdx++;
+          this.renderQuestion();
+        }, 2200);
+      }
+
+      showFinished() {
+        this.dom.playCard.style.display = 'none';
+        this.dom.finishedCard.style.display = 'flex';
+        this.dom.finalScore.textContent = `Végeredmény: ${this.score} / ${this.total} pont (${Math.round(this.score / this.total * 100)}%)`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      window.presentation = new FiveSlidePresentation();
+      window.game = new IlleszkedesGame();
+    });
+  </script>
+</body>
+</html>
